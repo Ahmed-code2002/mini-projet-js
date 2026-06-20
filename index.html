@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Projet JS – ISTA Hay Salam</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     PAGE : LOGIN
+     ══════════════════════════════════════ -->
+<div id="login-page" class="page active">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;
+              background:linear-gradient(135deg,#1a1a2e 0%,#0d3b55 100%);">
+    <div class="login-card">
+
+      <!-- Logo / titre -->
+      <div style="text-align:center;margin-bottom:32px">
+        <div style="width:60px;height:60px;background:var(--accent);border-radius:16px;
+                    display:flex;align-items:center;justify-content:center;
+                    font-family:'Syne',sans-serif;font-weight:800;font-size:26px;
+                    color:#fff;margin:0 auto 12px">JS</div>
+        <h2>Connexion</h2>
+        <p class="subtitle">Entrez vos identifiants pour accéder à l'application</p>
+      </div>
+
+      <!-- Formulaire -->
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="login-pseudo">Nom d'utilisateur ou Email</label>
+          <input type="text" id="login-pseudo" class="form-control" placeholder="username" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="login-pwd">Mot de passe</label>
+          <input type="password" id="login-pwd" class="form-control" placeholder="password" autocomplete="current-password" />
+        </div>
+
+        <!-- Case à cocher "Se rappeler de moi" -->
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember-me" />
+            Se rappeler de moi
+          </label>
+        </div>
+
+        <!-- Erreurs (liste ul rouge) -->
+        <ul class="error-list" id="login-errors"></ul>
+
+        <button type="submit" class="btn btn-primary" id="btn-login" style="width:100%;justify-content:center;margin-top:8px">
+          LOGIN
+        </button>
+      </form>
+
+      <!-- Lien vers création de compte -->
+      <a class="link-create" onclick="Router.go('create-page')" style="cursor:pointer">
+        Not registered? Create an account
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE : CREATE ACCOUNT
+     ══════════════════════════════════════ -->
+<div id="create-page" class="page">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;
+              background:linear-gradient(135deg,#0d3b55 0%,#1a1a2e 100%);padding:40px 20px;">
+    <div class="create-card">
+
+      <h2>Créer un compte</h2>
+      <p class="subtitle">Tous les champs sont obligatoires</p>
+
+      <form id="create-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" id="ca-nom" class="form-control" placeholder="Nom de famille" />
+          </div>
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" id="ca-prenom" class="form-control" placeholder="Prénom" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Âge</label>
+            <input type="number" id="ca-age" class="form-control" placeholder="Âge" min="1" max="120" />
+          </div>
+          <div class="form-group">
+            <label>Pseudo</label>
+            <input type="text" id="ca-pseudo" class="form-control" placeholder="Pseudo unique" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="ca-email" class="form-control" placeholder="email@exemple.com" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Pays</label>
+            <input type="text" id="ca-pays" class="form-control" placeholder="France, Maroc…" />
+          </div>
+          <div class="form-group">
+            <label>Devise</label>
+            <input type="text" id="ca-devise" class="form-control" placeholder="EUR, MAD…" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Couleur préférée</label>
+            <input type="text" id="ca-couleur" class="form-control" placeholder="blue, red…" />
+          </div>
+          <div class="form-group">
+            <label>Rôle</label>
+            <select id="ca-admin" class="form-control">
+              <option value="false">Visiteur</option>
+              <option value="true">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Mot de passe avec indicateurs -->
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="ca-pwd" class="form-control" placeholder="Mot de passe sécurisé" />
+          <!-- Indicateurs visuels de complexité -->
+          <div class="pwd-requirements">
+            <span class="req" id="req-upper">Majuscule</span>
+            <span class="req" id="req-lower">Minuscule</span>
+            <span class="req" id="req-digit">Chiffre</span>
+            <span class="req" id="req-special">Caractère spécial</span>
+            <span class="req" id="req-length">8 caractères</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <input type="password" id="ca-pwd-confirm" class="form-control" placeholder="Répétez le mot de passe" />
+        </div>
+
+        <!-- Erreurs -->
+        <ul class="error-list" id="create-errors"></ul>
+
+        <button type="submit" class="btn btn-primary" id="btn-create" style="width:100%;justify-content:center">
+          Créer le compte
+        </button>
+      </form>
+
+      <a onclick="Router.go('login-page')" style="display:block;text-align:center;margin-top:16px;
+         color:var(--accent);font-size:13px;cursor:pointer">
+        ← Retour à la connexion
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     LAYOUT PRINCIPAL (après connexion)
+     Structure : Header > NavBar > (Sidebar + Content) > Footer
+     ══════════════════════════════════════ -->
+<div id="app-layout" class="page">
+  <div id="app-layout" style="display:flex;flex-direction:column;min-height:100vh">
+
+    <!-- HEADER SECTION -->
+    <header class="app-header">
+      <div class="header-logo">
+        <div class="logo-box">JS</div>
+        <span>ISTA Hay Salam</span>
+      </div>
+      <div class="header-user">
+        <span class="user-name" id="header-username">–</span>
+        <button class="btn btn-danger btn-sm" onclick="logout()">Se Déconnecter</button>
+      </div>
+    </header>
+
+    <!-- NAVIGATION BAR (horizontale) -->
+    <nav class="app-navbar" id="app-navbar">
+      <!-- Liens générés dynamiquement par JS selon le rôle -->
+    </nav>
+
+    <!-- BODY : INDEX (sidebar) + CONTENT SECTION -->
+    <div class="app-body">
+
+      <!-- INDEX / Sidebar (verticale) -->
+      <aside class="app-sidebar" id="app-sidebar">
+        <!-- Liens générés dynamiquement -->
+      </aside>
+
+      <!-- CONTENT SECTION -->
+      <main class="app-content" id="app-content">
+        <p style="color:var(--text-muted)">Chargement…</p>
+      </main>
+
+    </div>
+
+    <!-- FOOTER SECTION -->
+    <footer class="app-footer">
+      <div>
+        <strong style="font-family:'Syne',sans-serif">ISTA Hay Salam</strong><br>
+        <small>123 Avenue Mohammed V, Casablanca, Maroc</small>
+      </div>
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank" title="Facebook">📘</a>
+        <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+        <a href="https://twitter.com" target="_blank" title="Twitter / X">🐦</a>
+        <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<!-- Script principal -->
+<script src="js/app.js"></script>
+</body>
+</html>
