@@ -1,6 +1,6 @@
 const API_URL = 'https://670ed5b73e7151861655eaa3.mockapi.io/Stagiaire';
 
-// ── SESSION STORAGE ──────────────────────────────────
+// ── SESSION STORAGE ───
 const Session = {
   set: (user) => sessionStorage.setItem('currentUser', JSON.stringify(user)),
   get: () => { const u = sessionStorage.getItem('currentUser'); return u ? JSON.parse(u) : null; },
@@ -8,14 +8,14 @@ const Session = {
   update: (patch) => { const u = Session.get(); if (u) Session.set({ ...u, ...patch }); }
 };
 
-// ── REMEMBER ME ──────────────────────────────────────
+// ── REMEMBER ME ──
 const Remember = {
   save: (pseudo, pwd) => localStorage.setItem('rememberMe', JSON.stringify({ pseudo, pwd })),
   get: () => { const r = localStorage.getItem('rememberMe'); return r ? JSON.parse(r) : null; },
   clear: () => localStorage.removeItem('rememberMe')
 };
 
-// ── ROUTER ───────────────────────────────────────────
+// ── ROUTER ──
 const Router = {
   go(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -24,7 +24,7 @@ const Router = {
   }
 };
 
-// ── API SERVICE ───────────────────────────────────────
+// ── API SERVICE ───
 const API = {
   getAll: () => fetch(API_URL).then(r => r.json()),
   getOne: (id) => fetch(`${API_URL}/${id}`).then(r => r.json()),
@@ -39,7 +39,7 @@ const API = {
   delete: (id) => fetch(`${API_URL}/${id}`, { method: 'DELETE' }).then(r => r.json())
 };
 
-// ── VALIDATION ────────────────────────────────────────
+// ── VALIDATION ───
 const Validate = {
   password(pwd) {
     return [
@@ -53,7 +53,7 @@ const Validate = {
   isPasswordValid(pwd) { return this.password(pwd).every(r => r.met); }
 };
 
-// ── LOGIN ─────────────────────────────────────────────
+// ── LOGIN ───
 let loginAttempts = 0;
 
 function initLogin() {
@@ -62,7 +62,6 @@ function initLogin() {
   const btnLogin  = document.getElementById('btn-login');
   const rememberChk = document.getElementById('remember-me');
 
-  // Pré-remplir si "Se rappeler de moi"
   const saved = Remember.get();
   if (saved) {
     document.getElementById('login-pseudo').value = saved.pseudo;
@@ -90,7 +89,6 @@ function initLogin() {
     try {
       const users = await API.getAll();
 
-      // ─── CORRECTION : comparaison insensible aux espaces + multi-champ ───
       const input = pseudo.trim().toLowerCase();
       const user = users.find(u => {
         const matchPseudo = u.pseudo && u.pseudo.trim().toLowerCase() === input;
@@ -126,7 +124,7 @@ function initLogin() {
   });
 }
 
-// ── CREATE ACCOUNT ────────────────────────────────────
+// ── CREATE ACCOUNT ───
 function initCreateAccount() {
   const form      = document.getElementById('create-form');
   const errorList = document.getElementById('create-errors');
@@ -191,7 +189,7 @@ function initCreateAccount() {
   });
 }
 
-// ── LAYOUT ────────────────────────────────────────────
+// ── LAYOUT ──
 function loadLayout() {
   const user = Session.get();
   if (!user) { Router.go('login-page'); return; }
@@ -226,7 +224,7 @@ function loadLayout() {
   showContent('Accueil');
 }
 
-// ── ROUTING CONTENU ───────────────────────────────────
+// ── ROUTING CONTENU ───
 function showContent(pageId) {
   document.querySelectorAll('.nav-link, .sidebar-link').forEach(el => el.classList.remove('active'));
   document.querySelectorAll(`[onclick="showContent('${pageId}')"]`).forEach(el => el.classList.add('active'));
@@ -243,7 +241,7 @@ function showContent(pageId) {
   if (map[pageId]) map[pageId](content);
 }
 
-// ── PAGES ─────────────────────────────────────────────
+// ── PAGES ───
 function renderAccueil(el) {
   const u = Session.get();
   el.innerHTML = `
@@ -493,7 +491,7 @@ async function submitAddUser() {
   } catch { msg.innerHTML = '<span style="color:var(--danger)">❌ Erreur.</span>'; }
 }
 
-// ── DEMANDES ──────────────────────────────────────────
+// ── DEMANDES ────
 function getDemandes() {
   const user = Session.get();
   return getAllDemandes().filter(d => d.userId === user.id);
@@ -607,7 +605,7 @@ function setDemandeStatus(id, statut) {
   filterAdminDemandes(document.querySelector('[id^="adtab-"].active')?.id.replace('adtab-','') || 'pending');
 }
 
-// ── DÉCONNEXION ───────────────────────────────────────
+// ── DÉCONNEXION ───
 function logout() {
   Session.clear();
   loginAttempts = 0;
@@ -616,12 +614,12 @@ function logout() {
   Router.go('login-page');
 }
 
-// ── UTILITAIRE ────────────────────────────────────────
+// ── UTILITAIRE ────
 function showErrors(ulEl, errors) {
   ulEl.innerHTML = errors.map(e => `<li>${e}</li>`).join('');
 }
 
-// ── INIT ──────────────────────────────────────────────
+// ── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
   initLogin();
   initCreateAccount();
